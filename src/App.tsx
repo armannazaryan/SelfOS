@@ -28,7 +28,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/SelfOS">
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Landing />} />
