@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Landing } from './pages/Landing';
 import { SignUp } from './pages/SignUp';
@@ -20,20 +21,21 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   return <>{children}</>;
 }
 
-function App() {
+export default function App() {
   return (
-    <BrowserRouter basename="/SelfOS">
+    <HashRouter>
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+
           <Route
             path="/onboarding"
             element={
@@ -74,10 +76,11 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* fallback: if route doesn't exist */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
-
-export default App;
